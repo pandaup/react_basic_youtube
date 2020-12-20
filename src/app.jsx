@@ -6,21 +6,20 @@ function App() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect');
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      //'https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyB988e4p7r7KLYAB7UC_RVwotgzkbElC0U',
+      'https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyAM3AuI5LAWELWhD4SmMfZCIF3eIqekpcI',
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => setVideos(result.items))
+      .catch((error) => console.log('error', error));
   }, []);
-
-  const requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-  };
-
-  fetch(
-    'https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyB988e4p7r7KLYAB7UC_RVwotgzkbElC0U',
-    requestOptions
-  )
-    .then((response) => response.json())
-    .then((result) => setVideos(result.items))
-    .catch((error) => console.log('error', error));
 
   return <VideoList videos={videos} />;
 }
